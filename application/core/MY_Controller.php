@@ -82,15 +82,12 @@ class MY_Controller extends CI_Controller {
 		parent::__construct();
 		$this->_load_models();
 		$this->_load_assets();
-		$controller = $this->uri->segment(1);
-		$method = $this->uri->segment(2);
-		if($controller != "site") {
-			if(!$this->_is_logged_in()) {
-				if($controller . "/" . $method != "verification/login") {
-					redirect("verification/login");
-				}
-			}
-		}
+		if(!$this->_is_logged_in()) {
+		    $allowed_uri = array("verification/login","verification/create_user");
+            if( !in_array($this->uri->segment(1)."/".$this->uri->segment(2), $allowed_uri) ) {
+                redirect("site/index");
+            }
+        }
 	}
 	
 	/**
