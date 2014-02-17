@@ -84,8 +84,8 @@ class MY_Controller extends CI_Controller {
 		$this->_load_assets();
 		if(!$this->_is_logged_in()) {
 		    $allowed_uri = array("verification/login","verification/create_user", "verification/user_portal");
-            if( !in_array($this->uri->segment(1)."/".$this->uri->segment(2), $allowed_uri) ) {
-                redirect("site/index");
+            if( !in_array($this->uri->segment(1)."/".$this->uri->segment(2), $allowed_uri) &&  $this->uri->segment(1)."/".$this->uri->segment(2) != "site/index") {
+                redirect("verification/login");
             }
         }
 	}
