@@ -18,7 +18,7 @@ class Tests extends MY_Controller {
 	 * @see http://codeigniter.com/user_guide/general/urls.html
 	 */
 	public function index() {
-		$this->data['title'] = "Test Container";
+		$this->data['title'] = "New Test Container";
 	}
 }
 
