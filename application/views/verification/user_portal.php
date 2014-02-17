@@ -1,30 +1,14 @@
-<!--
-PROPOSED Database structure
-id int(11)
-company_name varchar(225)
-address text
-email varchar(225)
-manager_name varchar(225)
-manager_role varchar(30)
-manager_cv_upload varchar(225)
-cac_registration_document varchar(225)
-cac form co2 varchar(225)
-cac form co7 varchar(225)
-iata license varchar(225)
-audited statements of account varchar(225)
-tax clearance varchar(225)
-police report,affidavit on status of directors varchar(225)
-status int(11)
-login_key
--->
 <div class="row">
 	<div class="large-8 columns large-centered">
 		<div class="login box">
 			<div class="title">KronJobs New company registration</div>
 			<div class="content">
 				<?= validation_errors('<div class="alert-box alert radius">', '</div>'); ?>
-				<?= $this->message->display('success'); ?>
 				<?= $this->message->display('error'); ?>
+				<div class="alert-box instructions">
+					Your key has been created. Take note of it.<br/>
+					<strong><?= $this->session->userdata('interim_user'); ?></strong>
+				</div>
 				<?= form_open_multipart('verification/create_user'); ?>
 				<label for="company_name">Company Name</label>
 				<input type="text" name="company_name" value="<?= set_value('company_name'); ?>"/>

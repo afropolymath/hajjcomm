@@ -3,8 +3,11 @@
 }
 html, body {
 	background: #f4f4f4;
-	height:100%;
+	min-height:100%;
 	font-family:"Open Sans Light", Arial, sans-serif;
+}
+body {
+	padding-bottom: 100px;
 }
 p {
 	margin-top: 10px;
@@ -12,11 +15,17 @@ p {
 body.login {
 	background: #4e7e2a;
 }
+body.interim {
+	background: #fff;
+}
 #page {
 	margin-top:20px;
 }
 body.login #page {
 	margin-top: 50px;
+}
+body.interim #page {
+	margin-top: 0px;
 }
 #top-montage {
 	background:url('../../images/top_bar.jpg') repeat-x;
@@ -114,6 +123,14 @@ table.mini-style th {
 	padding-bottom: 5px;
 	font-weight: bold;
 }
+h2.sub-section {
+	font-size: 1.2em;
+	font-weight: bold;
+	border-bottom: solid 2px #565656;
+	color:#565656;
+	margin-bottom: 15px;
+	padding-bottom: 5px;
+}
 h3 {
 	font-size: 1.5em;
 	margin-bottom: 15px;
@@ -129,9 +146,18 @@ dl.tabs dd.active {
 	border:solid 1px #dedede;
 	border-bottom: none;
 }
-.alert-box.notice {
-	background:#d7e0e1;
-	border-color: #afbfc0;
-	color:#647b7d;
+.alert-box {
 	padding:0.7em;
+	border-radius:4px;
+	margin-bottom: 20px;
+}
+.alert-box.instructions {
+	background-color: #fcf8e3;
+	border-color: #faebcc;
+	color: #8a6d3b;
+}
+.alert-box.notice {
+	background-color: #d9edf7;
+	border-color: #bce8f1;
+	color: #31708f;
 }

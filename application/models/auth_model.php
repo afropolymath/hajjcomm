@@ -8,3 +8,4 @@ class Auth_model extends MY_Model {
 
 /* End of file auth_model.php */
 /* Location: ./application/models/auth_model.php */
+?>

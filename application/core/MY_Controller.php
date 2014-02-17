@@ -67,7 +67,7 @@ class MY_Controller extends CI_Controller {
 	 *
 	 * @var array
 	 */
-	protected $models = array('applicant','auth');
+	protected $models = array('applicant','auth','record','company');
 	
 	/**
 	 * The class constructor, loads the models
@@ -83,7 +83,7 @@ class MY_Controller extends CI_Controller {
 		$this->_load_models();
 		$this->_load_assets();
 		if(!$this->_is_logged_in()) {
-		    $allowed_uri = array("verification/login","verification/create_user");
+		    $allowed_uri = array("verification/login","verification/create_user", "verification/user_portal");
             if( !in_array($this->uri->segment(1)."/".$this->uri->segment(2), $allowed_uri) ) {
                 redirect("site/index");
             }

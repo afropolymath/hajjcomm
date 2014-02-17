@@ -56,47 +56,79 @@ class Verification extends MY_Controller {
 		}
 	}
 	public function create_user() {
-		$this->form_validation->set_rules('company_name', 'Company Name', 'required|xss_clean|callback__companyexists');
-
+		$error = false;
+		$this->layout = 'layouts/interim';
+		$this->form_validation->set_rules('company_name', 'Company Name', 'required|xss_clean|callback__is_company');
+		$this->form_validation->set_rules('address', 'Company Address', 'required|xss_clean');
+		$this->form_validation->set_rules('email', 'Company E-mail Address', 'required|xss_clean|valid_email');
+		$this->form_validation->set_rules('manager_name', 'Account Manager Name', 'required|xss_clean');
+		$this->form_validation->set_rules('manager_role', 'Account Manager Role', 'required|xss_clean');
 		if($this->form_validation->run()) {
 			$vars = $this->input->post();
 			unset($vars['create']);
-			//Validate Date
-			$config['upload_path'] = './uploads/passport/';
-			$config['allowed_types'] = 'gif|jpg|png';
+			$vars['date_created'] = $vars['date_modified'] = date("Y-m-d H:i:s");
+			$key = strtoupper( substr(sha1(time()),0,10) );
+			$vars['login_key'] = $key;
+			$config['upload_path'] = "./company_records/";
+			$config['allowed_types'] = 'doc|docx|pdf';
 			$config['max_size']	= '2048';
-			$config['max_width']  = '1024';
-			$config['max_height']  = '768';
-			if(strtotime($vars['expiry_date']) - strtotime($vars['issue_date']) <= 0) {
-				$this->message->set('error', 'The expiry date must be after the issue date');
-				$error = true;
-			}
-			if($_FILES['passport_scan']['name'] != "") {
-				$path = pathinfo($_FILES['passport_scan']['name']);
-				$config['file_name'] = $vars['passport_number'].".".$path['extension'];
+			if($_FILES['manager_cv']['name'] != "") {
+				$path = pathinfo($_FILES['manager_cv']['name']);
+				$config['file_name'] = $key.".".$path['extension'];
 
 				$this->load->library('upload', $config);
 
-				if ( ! $this->upload->do_upload('passport_scan'))
-				{
+				if ( ! $this->upload->do_upload('manager_cv')) {
 					$error = true;
-					foreach($this->upload->display_errors() as $message) {
+					foreach((array) $this->upload->display_errors() as $message) {
 						$this->message->set('error', $message);
 					}
 				} else {
-					$vars['passport_scan'] = "uploads/passport/" . $config['file_name'];
+					$vars['manager_cv'] = "company_records/" . $config['file_name'];
 				}
 			} else {
 				$error = true;
-				$this->message->set('error', 'You must provide the location of the scanned passport bio-data page');
+				$this->message->set('error', 'You must provide the CV for your account manager');
 			}
 			if(!$error) {
-				$vars['company_id'] = $this->session->userdata('company_id');
-				$insert_id = $this->applicant->insert($vars);
-				$this->message->set('success','Successfully created a new applicant.');
-				redirect("applicants/view/$insert_id");
+				mkdir("company_records/$key/");
+				if($insert_id = $this->company->insert($vars)) {
+					$array = array( 'interim_user' => $key, 'company_id' => $insert_id);
+					$this->session->set_userdata( $array );
+					$this->message->set("success","You company has been successfully added to the database.");
+					redirect("verification/user_portal");
+				}
 			}
 		}
+
+	}
+	public function user_portal() {
+		$this->layout = 'layouts/interim';
+		if($this->session->userdata('interim_user')) {
+
+		} else {
+			if($this->input->post('interim_user')) {
+				$company = $this->company->get_by(array('login_key' => $this->input->post('interim_user')));
+				if($company) {
+
+				} else {
+					redirect("verification/login");
+				}
+			} else {
+				redirect("verification/login");
+			}
+		}
+
+	}
+	public function _is_company() {
+		$company_name = $this->input->post('company_name');
+		if($this->company->get_by(array('company_name' => $company_name))) {
+			$this->form_validation->set_message('_is_company', 'A company with a similar name already exists.');
+			return false;
+		} else {
+			return true;
+		}
+
 	}
 }
 
