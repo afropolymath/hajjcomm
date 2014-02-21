@@ -5,28 +5,39 @@
 			<div class="content">
 				<?= validation_errors('<div class="alert-box alert radius">', '</div>'); ?>
 				<?= $this->message->display('error'); ?>
+				<?= $this->message->display('success'); ?>
 				<div class="alert-box instructions">
-					Your key has been created. Take note of it.<br/>
-					<strong><?= $this->session->userdata('interim_user'); ?></strong>
+					Applicant Number: <strong><?= $this->session->userdata('interim_user'); ?></strong>
 				</div>
-				<?= form_open_multipart('verification/create_user'); ?>
-				<label for="company_name">Company Name</label>
-				<input type="text" name="company_name" value="<?= set_value('company_name'); ?>"/>
-				<label for="address">Company Address</label>
-				<input type="text" name="address" value="<?= set_value('address'); ?>"/>
+				<?= form_open_multipart('verification/user_portal'); ?>
 				<div class="alert-box notice">
-					Note that this e-mail address will be used for all communication between you and NAHCON henceforth
+					All the fields are necessary. Please supply all the documents accordingly
 				</div>
-				<label for="email">Company E-mail Address</label>
-				<input type="text" name="email" value="<?= set_value('email'); ?>"/>
-				<h2 class="sub-section">Account Manager Details</h2>
-				<div class="alert-box notice">
-					Enter details of the person that will be in contact with NAHCON
-				</div>
-				<label for="manager_name">Name</label>
-				<input type="text" name="manager_name" value="<?= set_value('manager_name'); ?>"/>
-				<label for="manager_role">Role in your company</label>
-				<input type="text" name="manager_role" value="<?= set_value('manager_role'); ?>"/>
+				<table>
+					<tr>
+						<td>
+							<label for="manager_cv">CAC Registration Form</label>
+							<input type="file" name="manager_cv"/>
+						</td>
+						<td>
+							Incomplete
+						</td>
+						<td>
+							<label for="manager_cv">Form CO2</label>
+							<input type="file" name="manager_cv"/>
+						</td>
+						<td>
+							Incomplete
+						</td>
+						<td>
+							<label for="manager_cv">Form CO7</label>
+							<input type="file" name="manager_cv"/>
+						</td>
+						<td>
+							Incomplete
+						</td>
+				</table>
+				
 				<label for="manager_cv">Upload CV</label>
 				<input type="file" name="manager_cv"/>
 				<input type="submit" name="create" value="Next" class="tiny button radius" />
