@@ -72,7 +72,7 @@ nav section ul li a {
 	color:#787878;
 	margin-bottom: 10px;
 }
-.box .content .button {
+.box .content .button, .button {
 	font:normal 1.0em "Open Sans", Arial, sans-serif;
 	margin-bottom: 0;
 }
@@ -123,6 +123,17 @@ table.mini-style th {
 	padding-bottom: 5px;
 	font-weight: bold;
 }
+body.interim .form-title {
+	background:#efefef;
+	border-bottom: 1px solid #dedede;
+	padding:15px 0px;
+	margin-bottom: 15px;
+	font-size:1.4em;
+}
+h1.form-title {
+	font:bold 1.4em Arial, sans-serif;
+	margin-bottom: 15px;
+}
 h2.sub-section {
 	font-size: 1.2em;
 	font-weight: bold;
@@ -160,4 +171,7 @@ dl.tabs dd.active {
 	background-color: #d9edf7;
 	border-color: #bce8f1;
 	color: #31708f;
+}
+.interim-application {
+	display: none;
 }

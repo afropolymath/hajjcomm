@@ -42,7 +42,11 @@
             $(".trigger-create-applicant").click(function() {
                 $(".create-applicant").show();
                 return false;
-            })
+            });
+            $(document).on('click', '.reveal-interim', function(e) {
+                $('.interim-application').show();
+                e.preventDefault();
+            });
         });
     </script>
 </body>

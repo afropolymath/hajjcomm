@@ -93,7 +93,8 @@ class Verification extends MY_Controller {
 			if(!$error) {
 				mkdir("company_records/$key/");
 				if($insert_id = $this->company->insert($vars)) {
-					$array = array( 'interim_user' => $key, 'company_id' => $insert_id);
+					$this->record->insert(['company_id' => $insert_id]);
+					$array = [ 'interim_user' => $key, 'company_id' => $insert_id ];
 					$this->session->set_userdata( $array );
 					$this->message->set("success","You company has been successfully added to the database.");
 					redirect("verification/user_portal");
@@ -104,20 +105,55 @@ class Verification extends MY_Controller {
 	}
 	public function user_portal() {
 		$this->layout = 'layouts/interim';
-		if($this->session->userdata('interim_user')) {
-
-		} else {
+		if(!$this->session->userdata('interim_user')) {
 			if($this->input->post('interim_user')) {
-				$company = $this->company->get_by(array('login_key' => $this->input->post('interim_user')));
+				$company = $this->company->get_by(['login_key' => $this->input->post('interim_user')]);
 				if($company) {
-
+					$array = [ 'interim_user' => $this->input->post('interim_user') , 'company_id' => $company->id ];
+					$this->session->set_userdata( $array );
+					$this->data['company_records'] = $this->record->get_by(['company_id' => $company->id]);
 				} else {
 					redirect("verification/login");
 				}
 			} else {
 				redirect("verification/login");
 			}
+		} else {
+			$error = false;
+			
+			if($this->input->post('document_upload')) {
+				$config['upload_path'] = "./company_records/".$this->session->userdata('interim_user')."/";
+				$config['allowed_types'] = 'doc|docx|pdf';
+				$config['max_size']	= '2048';
+				foreach($_FILES as $field_name => $value) {
+					if($_FILES[$field_name]['name'] != "") {
+						$path = pathinfo($_FILES[$field_name]['name']);
+						$config['file_name'] = $field_name.".".$path['extension'];
+
+						$this->load->library('upload', $config);
+
+						if ( ! $this->upload->do_upload($field_name)) {
+							$error = true;
+							foreach((array) $this->upload->display_errors() as $message) {
+								$this->message->set('error', $message);
+							}
+						} else {
+							$vars[$field_name] = "company_records/".$this->session->userdata('interim_user')."/".$config['file_name'];
+						}
+					} else {
+						$error = true;
+						$this->message->set('error', 'There was an error while trying to upload the document');
+					}
+					if(!$error) {
+						if($this->record->update_by(['company_id' => $this->session->userdata('company_id')], $vars)) {
+							$this->message->set("success","Document upload successful.");
+						}
+					}
+				}
+			}
+			$this->data['company_records'] = $this->record->get_by(['company_id' => $this->session->userdata('company_id')]);
 		}
+		$this->output->enable_profiler(TRUE);
 
 	}
 	public function _is_company() {

@@ -22,12 +22,7 @@
         </div>
     </div>
     <div id="page">
-        <div class="row">
-            <div class="large-12 columns">
-                <?= $this->message->display('success'); ?>
-                <?= $yield; ?>
-            </div>
-        </div>
+        <?= $yield; ?>
     </div>
     <script src="<?= "$base/$jquery"; ?>"></script>
   
@@ -48,6 +43,13 @@
                 $("#switcher").load($(this).attr('href'));
                 return false;
             });
+            $(document).on('click', '.dynamic-upload', function() {
+                var $td = $(this).parent('td').prev('td');
+                var document_name = $td.children('label').html();
+                var document_slug = $td.children('label').prop('for');
+                $("#document_upload h3 span").html(document_name);
+                $("#document_upload p.lead input").prop('name',document_slug);
+            })
         });
     </script>
 </body>
