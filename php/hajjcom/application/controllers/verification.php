@@ -166,6 +166,7 @@ class Verification extends MY_Controller {
 				}
 			}
 		}
+		$this->output->enable_profiler(TRUE);
 
 	}
 	public function confirm() {
