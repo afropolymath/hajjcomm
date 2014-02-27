@@ -127,7 +127,7 @@ body.interim .form-title {
 	background:#efefef;
 	border-bottom: 1px solid #dedede;
 	padding:15px 0px;
-	margin-bottom: 15px;
+	margin-bottom: 25px;
 	font-size:1.4em;
 }
 h1.form-title {
@@ -174,4 +174,39 @@ dl.tabs dd.active {
 }
 .interim-application {
 	display: none;
+}
+.side-box {
+	background: #f4f4f4;
+	padding:15px;
+	border:solid 1px #efefef;
+	border-radius: 5px;
+}
+.side-box h1 {
+	margin-top:0;
+	font-size: 1.0em;
+}
+.side-box h2 {
+	font-size: 0.9em;
+	margin:0; margin-top: 20px;
+}
+.side-box p {
+	font-size: 0.8em;
+	margin:0;
+}
+.application-status {
+	text-align: center;
+	font-size: 0.9em;
+	font-weight: bold;
+	font-family: "Open Sans", Arial, sans-serif;
+	padding:7px 0;
+	margin-top:20px;
+	border-radius: 5px;
+}
+.application-status.err {
+	background: #cc0000;
+	color:#fff;
+}
+.application-status.yay {
+	background: LimeGreen;
+	color:#fff;
 }

@@ -120,7 +120,6 @@ class Verification extends MY_Controller {
 			}
 		} else {
 			$error = false;
-			
 			if($this->input->post('document_upload')) {
 				$config['upload_path'] = "./company_records/".$this->session->userdata('interim_user')."/";
 				$config['allowed_types'] = 'doc|docx|pdf';
@@ -151,9 +150,25 @@ class Verification extends MY_Controller {
 					}
 				}
 			}
-			$this->data['company_records'] = $this->record->get_by(['company_id' => $this->session->userdata('company_id')]);
+			
+			$test_records = $this->data['company_records'] = $this->record->get_by(['company_id' => $this->session->userdata('company_id')]);
+			$this->data['company'] = $this->company->get($this->session->userdata('company_id'));
+			$test_records = (array)$test_records;
+			$complete_status = true;
+			if($this->input->post('process_application') && $this->input->post('processVar') == sha1($this->data['company_records']->id)) {
+				foreach($test_records as $k=>$v) {
+					if(!isset($v)) { $complete_status = false; }
+				}
+				if($complete_status) {
+					$this->session->set_userdata( 'application_status', 'complete' );
+				} else {
+					$this->message->set('error', 'Application incomplete.');
+				}
+			}
 		}
-		$this->output->enable_profiler(TRUE);
+
+	}
+	public function confirm() {
 
 	}
 	public function _is_company() {
@@ -164,6 +179,9 @@ class Verification extends MY_Controller {
 		} else {
 			return true;
 		}
+
+	}
+	public function process() {
 
 	}
 }
