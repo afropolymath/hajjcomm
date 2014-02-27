@@ -46,6 +46,10 @@
 */
 
 $active_group = 'default';
+if(getenv('OPENSHIFT_MYSQL_DB_HOST')) {
+	$active_group = 'remote';
+}
+
 $active_record = TRUE;
 
 $db['default']['hostname'] = 'localhost';
@@ -64,6 +68,21 @@ $db['default']['swap_pre'] = '';
 $db['default']['autoinit'] = TRUE;
 $db['default']['stricton'] = FALSE;
 
+$db['remote']['hostname'] = getenv('OPENSHIFT_MYSQL_DB_HOST');
+$db['remote']['username'] = 'admine5qDKuW';
+$db['remote']['password'] = 'nmhf9I-Jsqj_';
+$db['remote']['database'] = 'phpapps';
+$db['remote']['dbdriver'] = 'mysql';
+$db['remote']['dbprefix'] = '';
+$db['remote']['pconnect'] = TRUE;
+$db['remote']['db_debug'] = TRUE;
+$db['remote']['cache_on'] = FALSE;
+$db['remote']['cachedir'] = '';
+$db['remote']['char_set'] = 'utf8';
+$db['remote']['dbcollat'] = 'utf8_general_ci';
+$db['remote']['swap_pre'] = '';
+$db['remote']['autoinit'] = TRUE;
+$db['remote']['stricton'] = FALSE;
 
 /* End of file database.php */
 /* Location: ./application/config/database.php */

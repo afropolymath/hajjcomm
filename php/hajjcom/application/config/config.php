@@ -17,7 +17,6 @@
 $config['base_url']	= 'http://localhost/NAHCON/';
 if(getenv('OPENSHIFT_MYSQL_DB_HOST')) {
 	$config['base_url'] = "http://phpapps-chidieberennadi.rhcloud.com/hajjcom/";
-	echo $config['base_url'];
 }
 
 /*
